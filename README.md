@@ -1,0 +1,1 @@
+This project builds Management Information System (MIS) about evidence of guests and their accommodations in hotel.
