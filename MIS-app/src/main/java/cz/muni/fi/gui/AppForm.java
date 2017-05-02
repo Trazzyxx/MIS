@@ -8,7 +8,12 @@ import java.util.ResourceBundle;
 
 /**
  * Created by xmecko on 26.4.17.
+ * @TODO: edit tags for localisation
+ * @TODO: implement dialog windows for addReservation and such
+ * @TODO: swingworker
+ * @TODO: db connection
  */
+
 public class AppForm {
     private JPanel panel1;
     private JTabbedPane Menu;
