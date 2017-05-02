@@ -79,6 +79,7 @@ public class Main {
         GuestManager guestManager = context.getBean(GuestManager.class);
         ReservationManager reservationManager = context.getBean(ReservationManager.class);
 
+        /* creation of sample data commented for now [02.05.2017]
         Room roomOne = new Room(null, 2,"321");
         roomManager.createRoom(roomOne);
         Guest guestJan = new Guest(null, "123 456 7890","Brno 123","Jan Mrkva");
@@ -101,6 +102,7 @@ public class Main {
 
 
         /** print all info from db **/
+        /*
         roomManager.findAllRooms().forEach(System.out::println);
         guestManager.listAllGuests().forEach(System.out::println);
         reservationManager.findAllReservations().forEach(System.out::println);
@@ -109,6 +111,7 @@ public class Main {
 
 
         guestManager.listAllGuests().forEach(System.out::println);
+        */
     }
 
     /**
