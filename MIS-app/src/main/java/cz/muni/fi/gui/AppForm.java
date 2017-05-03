@@ -21,7 +21,7 @@ public class AppForm {
     private JTabbedPane Menu;
     private JButton aboutButton;
     private JTextField thisIsHomePageTextField;
-    private JTable table1;
+    private JTable ReservationTable;
     private JButton AddResButton;
     private JButton EditResButton;
     private JButton DeleteReservationButton;
@@ -34,6 +34,8 @@ public class AppForm {
     private JButton EditGuestButton;
     private JButton AddGuestButton;
     private JButton FindEmptyRoomButton;
+    private JTable GuestsTable;
+    private JTable RoomsTable;
 
     public AppForm() {
 

@@ -40,7 +40,7 @@ public class RoomManagerImpl implements RoomManager {
 
         Number id = insertRoom.executeAndReturnKey(paramaters);
         room.setRoomID(id.longValue());
-        log.info("Room Created.");
+        log.info("Room {} Created.",room);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class RoomManagerImpl implements RoomManager {
                 room.getCapacity(),
                 room.getRoomNumber(),
                 room.getRoomID());
-        log.info("Room updated with given information.");
+        log.info("Room {} updated.",room);
     }
 
     @Override

@@ -99,7 +99,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d6d7f" class="javax.swing.JTable" binding="table1" default-binding="true">
+                  <component id="d6d7f" class="javax.swing.JTable" binding="ReservationTable">
                     <constraints/>
                     <properties/>
                   </component>
@@ -190,7 +190,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="c3be3" class="javax.swing.JTable" default-binding="true">
+                  <component id="c3be3" class="javax.swing.JTable" binding="GuestsTable">
                     <constraints/>
                     <properties/>
                   </component>
@@ -257,7 +257,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="8dfc2" class="javax.swing.JTable" default-binding="true">
+                  <component id="8dfc2" class="javax.swing.JTable" binding="RoomsTable">
                     <constraints/>
                     <properties/>
                   </component>

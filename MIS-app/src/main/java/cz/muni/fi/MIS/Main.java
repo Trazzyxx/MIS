@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -73,13 +76,17 @@ import java.util.Properties;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
+        /**
+         * embedded DB approach in wexik repo
+         */
+
        /*spring-JDBC approach*/
         ApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         RoomManager roomManager = context.getBean(RoomManager.class);
         GuestManager guestManager = context.getBean(GuestManager.class);
         ReservationManager reservationManager = context.getBean(ReservationManager.class);
 
-        /* creation of sample data commented for now [02.05.2017]
+
         Room roomOne = new Room(null, 2,"321");
         roomManager.createRoom(roomOne);
         Guest guestJan = new Guest(null, "123 456 7890","Brno 123","Jan Mrkva");
@@ -102,7 +109,7 @@ public class Main {
 
 
         /** print all info from db **/
-        /*
+
         roomManager.findAllRooms().forEach(System.out::println);
         guestManager.listAllGuests().forEach(System.out::println);
         reservationManager.findAllReservations().forEach(System.out::println);
@@ -111,8 +118,10 @@ public class Main {
 
 
         guestManager.listAllGuests().forEach(System.out::println);
-        */
+
     }
+
+
 
     /**
      * Configuration for Spring-JDBC

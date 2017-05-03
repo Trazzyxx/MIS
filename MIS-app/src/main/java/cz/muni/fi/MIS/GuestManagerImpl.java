@@ -38,13 +38,13 @@ public class GuestManagerImpl implements GuestManager {
 
         Number id = insertGuest.executeAndReturnKey(parameters);
         guest.setGuestID(id.longValue());
-        log.info("Guest added to DB.");
+        log.info("Guest {} added to DB.",guest);
     }
 
     @Override
     public void updateGuest(Guest guest) {
         jdbc.update("UPDATE guests SET phonenumber=?,address=?,fullname=? WHERE guestID=?",guest.getPhoneNumber(),guest.getAddress(),guest.getFullName(),guest.getGuestID());
-        log.info("Guest updated.");
+        log.info("Guest {} updated.",guest);
     }
 
     @Override

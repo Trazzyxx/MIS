@@ -71,7 +71,7 @@ public class ReservationManagerImpl implements ReservationManager {
 
         Number id = insertReservation.executeAndReturnKey(parameters);
         reservation.setReservationID(id.longValue());
-        log.info("Reservation created.");
+        log.info("Reservation {} created.",reservation);
        /* */
 
         /* cez keyholder */ /*
@@ -100,7 +100,7 @@ public class ReservationManagerImpl implements ReservationManager {
                 reservation.getGuest().getGuestID(),
                 reservation.getPrice(),
                 reservation.getReservationID());
-        log.info("Reservation updated.");
+        log.info("Reservation {} updated.",reservation);
 
     }
 
@@ -149,13 +149,13 @@ public class ReservationManagerImpl implements ReservationManager {
 
     @Override
     public List<Reservation> findGuestReservation(Guest guest) {
-        log.info("Finding reservation for given guest.");
+        log.info("Finding reservation for given guest {}.",guest);
         return jdbc.query("SELECT * FROM reservations WHERE guestid_fk=?",reservationMapper,guest.getGuestID());
     }
 
     @Override
     public List<Reservation> findRoomReservation(Room room) {
-        log.info("Finding reservation for given room.");
+        log.info("Finding reservation for given room {}.",room);
         return jdbc.query("SELECT * FROM reservations WHERE roomid_fk=?",reservationMapper,room.getRoomID());
     }
 
