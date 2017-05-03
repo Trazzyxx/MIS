@@ -1,5 +1,7 @@
 package cz.muni.fi.gui;
 
+import cz.muni.fi.MIS.RoomManagerImpl;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,8 +41,8 @@ public class AppForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "\tAuthors: Vladimír Mečko, Dávid Veliký"
-                                                                    + "\n\t Version: 1.1"
-                                                                    + "\n\t Last edited: 02.05.2017");
+                                                                + "\n\t Version: 1.1"
+                                                                + "\n\t Last edited: 02.05.2017");
             }
         });
 
@@ -140,11 +142,11 @@ public class AppForm {
 
 
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                        frame.setTitle("MIS 1.1");
-                        frame.setContentPane(new AppForm().Menu);
-                        frame.setPreferredSize(new Dimension(800,600));
-                        frame.pack();
-                        frame.setVisible(true);
+                frame.setTitle("MIS 1.1");
+                frame.setContentPane(new AppForm().Menu);
+                frame.setPreferredSize(new Dimension(800,600));
+                frame.pack();
+                frame.setVisible(true);
                     }
             );
         }

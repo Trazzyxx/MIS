@@ -16,6 +16,7 @@
         </constraints>
         <properties>
           <enabled value="true"/>
+          <name value=""/>
         </properties>
         <border type="none"/>
         <children>
@@ -73,7 +74,7 @@
                 </constraints>
                 <properties>
                   <editable value="false"/>
-                  <text resource-bundle="texts" key="This is home page for MIS..."/>
+                  <text resource-bundle="texts" key="homePageTextArea1"/>
                 </properties>
               </component>
               <vspacer id="e010">
@@ -122,7 +123,7 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Add Reservation"/>
+                      <text resource-bundle="texts" key="AddReservationBtn"/>
                     </properties>
                   </component>
                   <vspacer id="fdac0">
@@ -135,7 +136,7 @@
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Edit Reservation"/>
+                      <text resource-bundle="texts" key="EditReservationBtn"/>
                     </properties>
                   </component>
                   <component id="e6ca5" class="javax.swing.JButton" binding="DeleteReservationButton">
@@ -143,7 +144,7 @@
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Delete Reservation"/>
+                      <text resource-bundle="texts" key="DeleteReservationBtn"/>
                     </properties>
                   </component>
                   <component id="f8350" class="javax.swing.JButton" binding="FindGuestReservationButton">
@@ -151,7 +152,7 @@
                       <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Find Guest Reservation"/>
+                      <text resource-bundle="texts" key="FindGuestReservationBtn"/>
                     </properties>
                   </component>
                   <component id="685b8" class="javax.swing.JButton" binding="FindRoomReservationButton">
@@ -159,7 +160,7 @@
                       <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Find Room Reservation"/>
+                      <text resource-bundle="texts" key="FindRoomReservationBtn"/>
                     </properties>
                   </component>
                   <component id="e1153" class="javax.swing.JButton" binding="FindEmptyRoomButton">
@@ -167,7 +168,7 @@
                       <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Find Empty Rooms"/>
+                      <text resource-bundle="texts" key="FindEmptyRoomsBtn"/>
                     </properties>
                   </component>
                 </children>
@@ -213,7 +214,7 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Add Guest"/>
+                      <text resource-bundle="texts" key="AddGuestBtn"/>
                     </properties>
                   </component>
                   <vspacer id="d432f">
@@ -226,7 +227,7 @@
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Edit Guest"/>
+                      <text resource-bundle="texts" key="EditGuestBtn"/>
                     </properties>
                   </component>
                   <component id="f256b" class="javax.swing.JButton" binding="DeleteGuestButton">
@@ -234,7 +235,7 @@
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Delete Guest"/>
+                      <text resource-bundle="texts" key="DeleteGuestBtn"/>
                     </properties>
                   </component>
                 </children>
@@ -280,7 +281,7 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Add Room"/>
+                      <text resource-bundle="texts" key="AddRoomBtn"/>
                     </properties>
                   </component>
                   <vspacer id="c12f6">
@@ -293,7 +294,7 @@
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Edit Room"/>
+                      <text resource-bundle="texts" key="EditRoomBtn"/>
                     </properties>
                   </component>
                   <component id="a45ad" class="javax.swing.JButton" binding="DeleteRoomButton">
@@ -301,7 +302,7 @@
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <text resource-bundle="texts" key="Delete Room"/>
+                      <text resource-bundle="texts" key="DeleteRoomBtn"/>
                     </properties>
                   </component>
                 </children>
