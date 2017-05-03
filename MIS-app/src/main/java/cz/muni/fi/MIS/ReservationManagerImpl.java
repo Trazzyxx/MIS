@@ -31,7 +31,7 @@ public class ReservationManagerImpl implements ReservationManager {
     private RoomManager roomManager;
     private GuestManager guestManager;
 
-    final static Logger log = LoggerFactory.getLogger(GuestManagerImpl.class);
+    final static Logger log = LoggerFactory.getLogger(ReservationManagerImpl.class);
 
 
     private Date toSQLDate(LocalDate localDate) {

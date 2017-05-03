@@ -23,7 +23,7 @@ public class RoomManagerImpl implements RoomManager {
 
     private JdbcTemplate jdbc;
 
-    final static Logger log = LoggerFactory.getLogger(GuestManagerImpl.class);
+    final static Logger log = LoggerFactory.getLogger(RoomManagerImpl.class);
 
     public RoomManagerImpl(DataSource ds){
         this.jdbc = new JdbcTemplate(ds);
