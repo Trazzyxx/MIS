@@ -1,5 +1,7 @@
 package cz.muni.fi.MIS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,6 +30,8 @@ public class ReservationManagerImpl implements ReservationManager {
     private JdbcTemplate jdbc;
     private RoomManager roomManager;
     private GuestManager guestManager;
+
+    final static Logger log = LoggerFactory.getLogger(GuestManagerImpl.class);
 
 
     private Date toSQLDate(LocalDate localDate) {
@@ -67,6 +71,7 @@ public class ReservationManagerImpl implements ReservationManager {
 
         Number id = insertReservation.executeAndReturnKey(parameters);
         reservation.setReservationID(id.longValue());
+        log.info("Reservation created.");
        /* */
 
         /* cez keyholder */ /*
@@ -95,11 +100,14 @@ public class ReservationManagerImpl implements ReservationManager {
                 reservation.getGuest().getGuestID(),
                 reservation.getPrice(),
                 reservation.getReservationID());
+        log.info("Reservation updated.");
+
     }
 
     @Override
     public void deleteReservation(Reservation reservation) {
         jdbc.update("DELETE FROM reservations WHERE reservationID=?",reservation.getReservationID());
+        log.info("Reservation deleted.");
     }
 
     //query part
@@ -124,40 +132,36 @@ public class ReservationManagerImpl implements ReservationManager {
 
     @Override
     public List<Reservation> findAllReservations() {
+        log.info("Listing all reservations.");
         return jdbc.query("SELECT * FROM reservations",reservationMapper);
     }
 
     @Override
     public Reservation getReservationByID(Long reservationID){
         List<Reservation> reservations = jdbc.query("SELECT * FROM reservations WHERE reservationID=?", reservationMapper, reservationID);
-        if(reservations.isEmpty()) return null;
+        if(reservations.isEmpty()){
+            log.info("Reservation not found.");
+            return null;
+        }
         return reservations.get(0);
 
     }
 
     @Override
     public List<Reservation> findGuestReservation(Guest guest) {
+        log.info("Finding reservation for given guest.");
         return jdbc.query("SELECT * FROM reservations WHERE guestid_fk=?",reservationMapper,guest.getGuestID());
     }
 
     @Override
     public List<Reservation> findRoomReservation(Room room) {
+        log.info("Finding reservation for given room.");
         return jdbc.query("SELECT * FROM reservations WHERE roomid_fk=?",reservationMapper,room.getRoomID());
     }
 
-    /**
-     * TODO: implement correctly
-     * doesnt work yet
-     */
+
     @Override
     public List<Room> findEmptyRoom(LocalDate start, LocalDate ende) {
-      /*
-        return jdbc.query("SELECT * FROM room WHERE roomid NOT IN (SELECT roomid_fk " +
-                        "FROM reservation WHERE ((starttime <= startT=? AND endtime > startT=?) " +
-                        "OR (starttime > startT=? AND endtime <= endT=?) OR (starttime < endT=?) AND (endtime > endT=?)))",
-                reservationMapper,Date.valueOf(start),Date.valueOf(start),Date.valueOf(start),Date.valueOf(ende),Date.valueOf(ende),Date.valueOf(ende));
-*/
-
         List<Reservation> reservationsInRange = null;
         reservationsInRange = jdbc.query("SELECT * " +
                         "FROM reservations " +
@@ -170,23 +174,13 @@ public class ReservationManagerImpl implements ReservationManager {
 
         List<Room> roomList = null;
         roomList = jdbc.query("SELECT * FROM rooms",roomMapper);
-/*
-        if (!reservationsInRange.isEmpty()) {
-            for (Reservation res:reservationsInRange) {
-                if(roomList.contains(res.getRoom())) {
-                    roomList.remove(res.getRoom());
-                }
-            }
-        }
-        return roomList;
-*/
 
         for (Reservation res:reservationsInRange) {
             if(roomList.contains(res.getRoom())) {
                 roomList.remove(res.getRoom());
             }
         }
-
+        log.info("Empty rooms listed.");
         return roomList;
     }
 }

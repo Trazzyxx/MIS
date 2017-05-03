@@ -1,5 +1,7 @@
 package cz.muni.fi.MIS;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,6 +23,8 @@ public class RoomManagerImpl implements RoomManager {
 
     private JdbcTemplate jdbc;
 
+    final static Logger log = LoggerFactory.getLogger(GuestManagerImpl.class);
+
     public RoomManagerImpl(DataSource ds){
         this.jdbc = new JdbcTemplate(ds);
     }
@@ -36,6 +40,7 @@ public class RoomManagerImpl implements RoomManager {
 
         Number id = insertRoom.executeAndReturnKey(paramaters);
         room.setRoomID(id.longValue());
+        log.info("Room Created.");
     }
 
     @Override
@@ -44,12 +49,13 @@ public class RoomManagerImpl implements RoomManager {
                 room.getCapacity(),
                 room.getRoomNumber(),
                 room.getRoomID());
+        log.info("Room updated with given information.");
     }
 
     @Override
     public void deleteRoom(Room room) {
-
         jdbc.update("DELETE FROM rooms WHERE roomid=?",room.getRoomID());
+        log.info("Room deleted.");
     }
 
 
@@ -59,7 +65,10 @@ public class RoomManagerImpl implements RoomManager {
     @Override
     public Room getRoomByID(Long roomID) {
         List<Room> rooms = jdbc.query("SELECT * FROM rooms WHERE roomID=?", roomMapper, roomID);
-        if(rooms.isEmpty()) return null;
+        if(rooms.isEmpty()){
+            log.info("Can't find room.");
+            return null;
+        }
         return rooms.get(0);
     }
 

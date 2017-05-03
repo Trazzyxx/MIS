@@ -1,6 +1,8 @@
 package cz.muni.fi.MIS;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -18,7 +20,7 @@ import java.util.List;
 public class GuestManagerImpl implements GuestManager {
 
     private JdbcTemplate jdbc;
-
+    final static Logger log = LoggerFactory.getLogger(GuestManagerImpl.class);
 
     public GuestManagerImpl(DataSource dataSource){
         this.jdbc = new JdbcTemplate(dataSource);
@@ -36,16 +38,19 @@ public class GuestManagerImpl implements GuestManager {
 
         Number id = insertGuest.executeAndReturnKey(parameters);
         guest.setGuestID(id.longValue());
+        log.info("Guest added to DB.");
     }
 
     @Override
     public void updateGuest(Guest guest) {
         jdbc.update("UPDATE guests SET phonenumber=?,address=?,fullname=? WHERE guestID=?",guest.getPhoneNumber(),guest.getAddress(),guest.getFullName(),guest.getGuestID());
+        log.info("Guest updated.");
     }
 
     @Override
     public void deleteGuest(Guest guest){
         jdbc.update("DELETE FROM guests WHERE guestID=?",guest.getGuestID());
+        log.info("Guest deleted.");
     }
 
     private RowMapper<Guest> guestMapper = (rs,rowNum) ->
@@ -54,6 +59,7 @@ public class GuestManagerImpl implements GuestManager {
     @Transactional
     @Override
     public List<Guest> listAllGuests() {
+        log.info("Listing all guests.");
         return jdbc.query("SELECT * FROM guests",guestMapper);
     }
 
@@ -67,6 +73,7 @@ public class GuestManagerImpl implements GuestManager {
 
     @Override
     public List<Guest> findGuestByName(String fullName) {
+        log.info("Looking for Guest " + fullName + ".");
         return jdbc.query("SELECT * FROM guests WHERE fullname=?",guestMapper,fullName);
     }
 }
