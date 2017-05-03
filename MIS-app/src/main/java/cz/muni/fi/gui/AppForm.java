@@ -128,7 +128,6 @@ public class AppForm {
 
 
         public static void main(String[] args) {
-            JTable jTableRooms = new JTable(RoomsTableModel);
             EventQueue.invokeLater( ()-> {
                         JFrame frame = new JFrame();
 

@@ -31,7 +31,7 @@ public class RoomsTableModel extends AbstractTableModel {
             case 0:
                 return room.getRoomID();
             case 1:
-                return room.getCapacity()
+                return room.getCapacity();
             case 2:
                 return room.getRoomNumber();
             default:

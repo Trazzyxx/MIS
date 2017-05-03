@@ -99,7 +99,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="d6d7f" class="javax.swing.JTable" binding="jTableReservations" custom-create="true">
+                  <component id="d6d7f" class="javax.swing.JTable" binding="jTableReservations">
                     <constraints/>
                     <properties/>
                   </component>
