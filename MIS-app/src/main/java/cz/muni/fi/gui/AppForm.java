@@ -1,12 +1,13 @@
 package cz.muni.fi.gui;
 
-import cz.muni.fi.MIS.RoomManagerImpl;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
+import java.util.Locale;
+
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 /**
  * Created by xmecko on 26.4.17.
@@ -21,7 +22,7 @@ public class AppForm {
     private JTabbedPane Menu;
     private JButton aboutButton;
     private JTextField thisIsHomePageTextField;
-    private JTable ReservationTable;
+    private JTable jTableReservations;
     private JButton AddResButton;
     private JButton EditResButton;
     private JButton DeleteReservationButton;
@@ -34,17 +35,18 @@ public class AppForm {
     private JButton EditGuestButton;
     private JButton AddGuestButton;
     private JButton FindEmptyRoomButton;
-    private JTable GuestsTable;
-    private JTable RoomsTable;
+    private JTable jTableGuests;
+    private JTable jTableRooms;
 
     public AppForm() {
 
         aboutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "\tAuthors: Vladimír Mečko, Dávid Veliký"
-                                                                + "\n\t Version: 1.1"
-                                                                + "\n\t Last edited: 02.05.2017");
+                ResourceBundle resourceBundle = ResourceBundle.getBundle("texts");
+                JOptionPane.showMessageDialog(null,"\t" + resourceBundle.getString("about.authors") + "\n"
+                        + "\t" + resourceBundle.getString("about.version") + "\n"
+                        + "\t" + resourceBundle.getString("about.edited"),resourceBundle.getString("About"),INFORMATION_MESSAGE);
             }
         });
 
@@ -126,6 +128,7 @@ public class AppForm {
 
 
         public static void main(String[] args) {
+            JTable jTableRooms = new JTable(RoomsTableModel);
             EventQueue.invokeLater( ()-> {
                         JFrame frame = new JFrame();
 
@@ -141,8 +144,6 @@ public class AppForm {
                 } catch (UnsupportedLookAndFeelException e) {
                     e.printStackTrace();
                 }
-
-
                 frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 frame.setTitle("MIS 1.1");
                 frame.setContentPane(new AppForm().Menu);
@@ -151,5 +152,6 @@ public class AppForm {
                 frame.setVisible(true);
                     }
             );
+
         }
 }
