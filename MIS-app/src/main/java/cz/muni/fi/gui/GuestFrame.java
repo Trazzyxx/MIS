@@ -5,7 +5,9 @@
  */
 package cz.muni.fi.gui;
 
+import cz.muni.fi.MIS.Guest;
 import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,12 +47,6 @@ public class GuestFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtFieldPhoneNum.setText("textField1");
-
-        txtFieldAddress.setText("textField2");
-
-        txtFieldFullName.setText("textField3");
-
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N
         lblPhoneNum.setText(bundle.getString("phoneNumber")); // NOI18N
 
@@ -59,9 +55,19 @@ public class GuestFrame extends javax.swing.JFrame {
         lblFullName.setText(bundle.getString("fullname")); // NOI18N
 
         btnSave.setLabel(bundle.getString("save")); // NOI18N
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnCancel.setLabel(bundle.getString("cancel")); // NOI18N
         btnCancel.setName(""); // NOI18N
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         lblWindowName.setAlignment(java.awt.Label.CENTER);
         lblWindowName.setText(bundle.getString("AddGuestBtn")); // NOI18N
@@ -120,6 +126,37 @@ public class GuestFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        String phoneNum = txtFieldPhoneNum.getText();
+        String address = txtFieldAddress.getText();
+        String fullName = txtFieldFullName.getText();
+        
+        if (fullName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, texts.getString("enterNamepls"), texts.getString("requireName"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (address.isEmpty()) {
+            JOptionPane.showMessageDialog(this, texts.getString("enterAddresspls"), texts.getString("requireAddress"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(phoneNum.isEmpty()){
+            JOptionPane.showMessageDialog(this,texts.getString("enterPhonepls"),texts.getString("requirePhone"),JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        Guest guest = new Guest();
+        guest.setFullName(fullName);
+        guest.setAddress(address);
+        guest.setPhoneNumber(phoneNum);
+        
+        guestTable.addRow(guest);
+        this.dispose();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

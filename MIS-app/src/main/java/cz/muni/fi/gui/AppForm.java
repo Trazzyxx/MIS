@@ -129,6 +129,12 @@ public class AppForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTabbedPane2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane2StateChanged(evt);
+            }
+        });
+
         jTableReservation.setModel(new ReservationTableModel());
         jPaneReservation.setViewportView(jTableReservation);
 
@@ -136,11 +142,21 @@ public class AppForm extends javax.swing.JFrame {
         jTabbedPane2.addTab(bundle.getString("Reservations"), jPaneReservation); // NOI18N
 
         jTableGuest.setModel(new GuestTableModel());
+        jTableGuest.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTableGuestFocusGained(evt);
+            }
+        });
         jPaneGuest.setViewportView(jTableGuest);
 
         jTabbedPane2.addTab(bundle.getString("Guests"), jPaneGuest); // NOI18N
 
         jTableRoom.setModel(new RoomsTableModel());
+        jTableRoom.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTableRoomFocusGained(evt);
+            }
+        });
         jPaneRoom.setViewportView(jTableRoom);
 
         jTabbedPane2.addTab(bundle.getString("Rooms"), jPaneRoom); // NOI18N
@@ -153,6 +169,11 @@ public class AppForm extends javax.swing.JFrame {
         jBtnAddRes.setFocusable(false);
         jBtnAddRes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnAddRes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnAddRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddResActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jBtnAddRes);
         jBtnAddRes.getAccessibleContext().setAccessibleName("jBtnAddRes");
 
@@ -167,13 +188,24 @@ public class AppForm extends javax.swing.JFrame {
         jBtnAddRoom.setFocusable(false);
         jBtnAddRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnAddRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnAddRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddRoomActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jBtnAddRoom);
         jBtnAddRoom.getAccessibleContext().setAccessibleName("jBtnAddRoom");
 
         jBtnDeleteRoom.setText(bundle.getString("DeleteRoomBtn")); // NOI18N
+        jBtnDeleteRoom.setEnabled(false);
         jBtnDeleteRoom.setFocusable(false);
         jBtnDeleteRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnDeleteRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnDeleteRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnDeleteRoomActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jBtnDeleteRoom);
         jBtnDeleteRoom.getAccessibleContext().setAccessibleName("jBtnDeleteRoom\n");
 
@@ -190,9 +222,15 @@ public class AppForm extends javax.swing.JFrame {
         jBtnAddGuest.getAccessibleContext().setAccessibleName("jBtnAddGuest");
 
         jBtnDeleteGuest.setText(bundle.getString("DeleteGuestBtn")); // NOI18N
+        jBtnDeleteGuest.setEnabled(false);
         jBtnDeleteGuest.setFocusable(false);
         jBtnDeleteGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnDeleteGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnDeleteGuest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnDeleteGuestActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jBtnDeleteGuest);
         jBtnDeleteGuest.getAccessibleContext().setAccessibleName("jBtnDeleteGuest");
 
@@ -266,6 +304,38 @@ public class AppForm extends javax.swing.JFrame {
         showGuestFrame();
     }//GEN-LAST:event_jBtnAddGuestActionPerformed
 
+    private void jBtnAddRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddRoomActionPerformed
+        showRoomFrame();
+    }//GEN-LAST:event_jBtnAddRoomActionPerformed
+
+    private void jBtnAddResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddResActionPerformed
+        //there will be showReservationFrame() once implemented.
+    }//GEN-LAST:event_jBtnAddResActionPerformed
+
+    private void jBtnDeleteGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteGuestActionPerformed
+        actionDeleteGuest();
+    }//GEN-LAST:event_jBtnDeleteGuestActionPerformed
+
+    private void jBtnDeleteRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteRoomActionPerformed
+        actionDeleteRoom();
+    }//GEN-LAST:event_jBtnDeleteRoomActionPerformed
+
+    private void jTableGuestFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableGuestFocusGained
+       jBtnDeleteGuest.setEnabled(true);
+    }//GEN-LAST:event_jTableGuestFocusGained
+
+    private void jTableRoomFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTableRoomFocusGained
+         jBtnDeleteRoom.setEnabled(true);
+    }//GEN-LAST:event_jTableRoomFocusGained
+
+    private void jTabbedPane2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane2StateChanged
+       if (jTabbedPane2.getSelectedIndex() == 0) {
+            jBtnDeleteRoom.setEnabled(false);
+            jBtnDeleteGuest.setEnabled(false);
+         }
+    }//GEN-LAST:event_jTabbedPane2StateChanged
+
+       
     /**
      * @param args the command line arguments
      */
@@ -277,7 +347,7 @@ public class AppForm extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Napkin".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
