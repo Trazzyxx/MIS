@@ -1,49 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.gui;
-
+//@TODO: upravit na guest
 import cz.muni.fi.MIS.Guest;
 import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
+
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
-import javax.swing.table.AbstractTableModel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- *
- * @author Vladko
+ * Created by V.Mecko on 3.5.2017.
  */
-public class GuestTableModel extends AbstractTableModel{
+public class GuestTableModel extends AbstractTableModel {
     private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
-    public static final int GUEST_COLUMN = 4;
-    private GuestManager guestManager;
+    public static final int GUEST_COLUMNS = 4;
     
-    private List<Guest> guests = new ArrayList<>();
+    protected ApplicationContext ctx;
+    protected GuestManager guestManager;
+    protected List<Guest> guests = new ArrayList<>();
 
-    private class RetrieveSwingWorker extends SwingWorker<Void,Void> {        
-        @Override    
-        protected Void doInBackground() throws Exception {
-            guests = guestManager.listAllGuests();
-            return null;
-        }
-        
-        @Override    
-        protected void done() {
-            fireTableRowsInserted(0, getRowCount() - 1);
-        }
-     }
-    
     public GuestTableModel() {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class);        
+        ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class); 
         guestManager = ctx.getBean(texts.getString("guestManager"), GuestManager.class);
-        
         RetrieveSwingWorker retrieveSwingWorker = new RetrieveSwingWorker();
         retrieveSwingWorker.execute();
     }
@@ -69,13 +51,26 @@ public class GuestTableModel extends AbstractTableModel{
         }
     }
     
+    private class RetrieveSwingWorker extends SwingWorker<Void,Void> {        
+        @Override    
+        protected Void doInBackground() throws Exception {
+            guests = guestManager.listAllGuests();
+            return null;
+        }
+        
+        @Override    
+        protected void done() {
+            fireTableRowsInserted(0, getRowCount() - 1);
+        }
+    }
+    
     private class UpdateSwingWorker extends SwingWorker<Void,Void> {
         private Guest guest;
         private int rowIndex;
         private int columnIndex;
         
         public UpdateSwingWorker(Guest guest, int rowIndex, int columnIndex) {
-            this.guest = guest;
+            this.guest=guest;
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;
         }
@@ -102,9 +97,9 @@ public class GuestTableModel extends AbstractTableModel{
         
         @Override    
         protected Void doInBackground() throws Exception {
-            Guest guest = guests.get(row);
+            Guest guestForDelete = guests.get(row);
             guests.remove(row);
-            guestManager.deleteGuest(guest);
+            guestManager.deleteGuest(guestForDelete);
             return null;
         }
         
@@ -113,7 +108,7 @@ public class GuestTableModel extends AbstractTableModel{
             fireTableRowsDeleted(row, row);
         }
     }
-    
+ 
     @Override
     public int getRowCount() {
         return guests.size();
@@ -121,7 +116,7 @@ public class GuestTableModel extends AbstractTableModel{
  
     @Override
     public int getColumnCount() {
-        return GUEST_COLUMN;
+        return GUEST_COLUMNS;
     }
  
     @Override
@@ -137,7 +132,7 @@ public class GuestTableModel extends AbstractTableModel{
             case 3:
                 return guest.getFullName();
             default:
-                throw new IllegalArgumentException(texts.getString("wrong column index"));
+                throw new IllegalArgumentException(texts.getString("working with bad column index."));
         }
     }
     
@@ -153,7 +148,7 @@ public class GuestTableModel extends AbstractTableModel{
             case 3:
                 return texts.getString("fullname");
             default:
-                throw new IllegalArgumentException(texts.getString("wrong column index"));
+                throw new IllegalArgumentException(texts.getString("working with bad column index."));
         }
     }
     
@@ -169,13 +164,13 @@ public class GuestTableModel extends AbstractTableModel{
             case 3:
                 return String.class;
             default:
-                throw new IllegalArgumentException(texts.getString("wrong column index"));
+                throw new IllegalArgumentException(texts.getString("working with bad column index."));
         }
     }
     
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Guest guest = guests.get(rowIndex); // swingworker
+        Guest guest = guests.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 guest.setGuestID((Long) aValue);
@@ -188,9 +183,8 @@ public class GuestTableModel extends AbstractTableModel{
                 break;
             case 3:
                 guest.setFullName((String) aValue);
-                break;
             default:
-                throw new IllegalArgumentException(texts.getString("wrong column index"));
+                throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }
         UpdateSwingWorker updateSwingWorker = new UpdateSwingWorker(guest, rowIndex, columnIndex);
         updateSwingWorker.execute();
@@ -206,7 +200,7 @@ public class GuestTableModel extends AbstractTableModel{
             case 3:
                 return true;
             default:
-                throw new IllegalArgumentException(texts.getString("wrong column index."));
+                throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }
     }
     
@@ -220,9 +214,4 @@ public class GuestTableModel extends AbstractTableModel{
         deleteSwingWorker.execute();
     }
     
-    public Guest getRow(int row) {
-        return guests.get(row);
-    }
-    
- }
-
+}

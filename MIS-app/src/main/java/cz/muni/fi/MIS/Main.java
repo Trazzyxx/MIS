@@ -87,8 +87,15 @@ public class Main {
         ReservationManager reservationManager = context.getBean(ReservationManager.class);
 
 
-        Room roomOne = new Room(null, 2,"321");
+        Room roomOne = new Room(null, 2,"888");
         roomManager.createRoom(roomOne);
+        
+        Guest guesto= new Guest(null,"123","Blava","Vlado mec");
+        guestManager.createGuest(guesto);
+        
+        Guest resto = new Guest(null,"333","aaa","resto");
+        guestManager.createGuest(resto);
+        
         Guest guestJan = new Guest(null, "123 456 7890","Brno 123","Jan Mrkva");
 
             guestManager.createGuest(guestJan);
@@ -98,14 +105,34 @@ public class Main {
 
         BigDecimal one = new BigDecimal(1);
 
-        Reservation reservation = new Reservation(null, LocalDate.now(),LocalDate.now().plusDays(3L),roomOne,guestJan,one);
+        Reservation reservation = new Reservation(null, LocalDate.now(),LocalDate.now().plusDays(3L),roomOne,guesto,one);
         try{
             reservationManager.createReservation(reservation);
         } catch(ValidationException e){
             e.printStackTrace();
         }
-        List<Reservation> reservations = reservationManager.findGuestReservation(guestJan);
-        System.out.println("reservationsForCustomer = " + reservations);
+        
+        Reservation reservation1 = new Reservation(null, LocalDate.now(),LocalDate.now().plusDays(3L),roomOne,resto,one);
+        try{
+            reservationManager.createReservation(reservation1);
+        } catch(ValidationException e){
+            e.printStackTrace();
+        }
+        
+        Reservation reservation2 = new Reservation(null, LocalDate.now(),LocalDate.now().plusDays(3L),roomOne,guestJan,one);
+        try{
+            reservationManager.createReservation(reservation2);
+        } catch(ValidationException e){
+            e.printStackTrace();
+        }
+        
+        Reservation reservation3 = new Reservation(null, LocalDate.now(),LocalDate.now().plusDays(3L),roomOne,guestJan,one);
+        try{
+            reservationManager.createReservation(reservation3);
+        } catch(ValidationException e){
+            e.printStackTrace();
+        }
+        
 
 
         /** print all info from db **/

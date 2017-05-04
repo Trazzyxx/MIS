@@ -5,19 +5,93 @@
  */
 package cz.muni.fi.gui;
 
+import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author Vladko
+ * @author V. Mecko
  */
 public class AppForm extends javax.swing.JFrame {
-
+     private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
+    
+    private GuestTableModel guestTable;
+    private RoomsTableModel roomTable;
+    private ReservationTableModel reservationTable;
+    
     /**
      * Creates new form AppForm
      */
     public AppForm() {
         initComponents();
+        
+        guestTable = (GuestTableModel) jTableGuest.getModel();
+        roomTable = (RoomsTableModel) jTableRoom.getModel();
+        reservationTable = (ReservationTableModel) jTableReservation.getModel();
     }
 
+     private void showGuestFrame() {
+        GuestFrame guestFrame = new GuestFrame(guestTable);
+        guestFrame.setVisible(true);
+    }
+    
+    private void showRoomFrame() {
+        RoomFrame roomFrame = new RoomFrame(roomTable);
+        roomFrame.setVisible(true);
+    }
+    /*
+    private void showCheckFrame() {
+        int row = jTableGuest.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("cantCheck"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        ReservationFrame resFrame = new ReservationFrame(guestModel.getRow(row));
+        if (checkFrame.getModel().isChecked()) {
+            JOptionPane.showMessageDialog(this, texts.getString("alreadyChecked"), texts.getString("cantCheckIn"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        checkFrame.setVisible(true);
+    }
+    */
+    private void actionDeleteGuest() {
+        int row = jTableGuest.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("cantDeleteGuest"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(this, texts.getString("reallyDeleteGuest"), texts.getString("DeleteGuestBtn"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            guestTable.removeRow(row);
+        }
+    }
+    
+    private void actionDeleteRoom() {
+        int row = jTableRoom.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectRoom"), texts.getString("cantDeleteRoom"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(this, texts.getString("reallyDeleteRoom"), texts.getString("DeleteRoomBtn"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            roomTable.removeRow(row);
+        }
+    }
+    /*
+    private void actionCheckOut() {
+        int row = jTableGuests.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("cantCheckOut"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        CheckTableModel checkModel = new CheckTableModel(guestModel.getRow(row));
+        if (!checkModel.isChecked()) {
+            JOptionPane.showMessageDialog(this, texts.getString("notCheckedInGuest"), texts.getString("cantCheckOut"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(this, texts.getString("reallyCheckGuest"), texts.getString("checkOutGuest"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            checkModel.checkOut();
+        }        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,8 +108,24 @@ public class AppForm extends javax.swing.JFrame {
         jTableGuest = new javax.swing.JTable();
         jPaneRoom = new javax.swing.JScrollPane();
         jTableRoom = new javax.swing.JTable();
+        jToolBar1 = new javax.swing.JToolBar();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
+        jBtnAddRes = new javax.swing.JButton();
+        jBtnDeleteRes = new javax.swing.JButton();
+        jBtnAddRoom = new javax.swing.JButton();
+        jBtnDeleteRoom = new javax.swing.JButton();
+        jBtnAddGuest = new javax.swing.JButton();
+        jBtnDeleteGuest = new javax.swing.JButton();
+        jToolBar2 = new javax.swing.JToolBar();
+        jSeparator19 = new javax.swing.JToolBar.Separator();
+        jBtnFindEmptyRoom = new javax.swing.JButton();
+        JBtnFindGuest = new javax.swing.JButton();
+        jBtnFindRoom = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItemAbout = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +145,94 @@ public class AppForm extends javax.swing.JFrame {
 
         jTabbedPane2.addTab(bundle.getString("Rooms"), jPaneRoom); // NOI18N
 
+        jToolBar1.setFloatable(false);
+        jToolBar1.setRollover(true);
+        jToolBar1.add(jSeparator2);
+
+        jBtnAddRes.setText(bundle.getString("AddReservationBtn")); // NOI18N
+        jBtnAddRes.setFocusable(false);
+        jBtnAddRes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnAddRes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnAddRes);
+        jBtnAddRes.getAccessibleContext().setAccessibleName("jBtnAddRes");
+
+        jBtnDeleteRes.setText(bundle.getString("DeleteReservationBtn")); // NOI18N
+        jBtnDeleteRes.setFocusable(false);
+        jBtnDeleteRes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnDeleteRes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnDeleteRes);
+        jBtnDeleteRes.getAccessibleContext().setAccessibleName("jBtnDeleteRes");
+
+        jBtnAddRoom.setText(bundle.getString("AddRoomBtn")); // NOI18N
+        jBtnAddRoom.setFocusable(false);
+        jBtnAddRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnAddRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnAddRoom);
+        jBtnAddRoom.getAccessibleContext().setAccessibleName("jBtnAddRoom");
+
+        jBtnDeleteRoom.setText(bundle.getString("DeleteRoomBtn")); // NOI18N
+        jBtnDeleteRoom.setFocusable(false);
+        jBtnDeleteRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnDeleteRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnDeleteRoom);
+        jBtnDeleteRoom.getAccessibleContext().setAccessibleName("jBtnDeleteRoom\n");
+
+        jBtnAddGuest.setText(bundle.getString("AddGuestBtn")); // NOI18N
+        jBtnAddGuest.setFocusable(false);
+        jBtnAddGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnAddGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnAddGuest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddGuestActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jBtnAddGuest);
+        jBtnAddGuest.getAccessibleContext().setAccessibleName("jBtnAddGuest");
+
+        jBtnDeleteGuest.setText(bundle.getString("DeleteGuestBtn")); // NOI18N
+        jBtnDeleteGuest.setFocusable(false);
+        jBtnDeleteGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnDeleteGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(jBtnDeleteGuest);
+        jBtnDeleteGuest.getAccessibleContext().setAccessibleName("jBtnDeleteGuest");
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+        jToolBar2.add(jSeparator19);
+
+        jBtnFindEmptyRoom.setText(bundle.getString("FindEmptyRoomsBtn")); // NOI18N
+        jBtnFindEmptyRoom.setFocusable(false);
+        jBtnFindEmptyRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnFindEmptyRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jBtnFindEmptyRoom);
+
+        JBtnFindGuest.setText(bundle.getString("FindGuestReservationBtn")); // NOI18N
+        JBtnFindGuest.setFocusable(false);
+        JBtnFindGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        JBtnFindGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(JBtnFindGuest);
+
+        jBtnFindRoom.setText(bundle.getString("FindRoomReservationBtn")); // NOI18N
+        jBtnFindRoom.setFocusable(false);
+        jBtnFindRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtnFindRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar2.add(jBtnFindRoom);
+
         jMenu1.setText("Hotel");
+
+        jMenuItemAbout.setText(bundle.getString("About")); // NOI18N
+        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAboutActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemAbout);
+        jMenu1.add(jSeparator1);
+
+        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItemExit.setText(bundle.getString("exit")); // NOI18N
+        jMenu1.add(jMenuItemExit);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -64,15 +241,30 @@ public class AppForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2)
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemAboutActionPerformed
+
+    private void jBtnAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddGuestActionPerformed
+        showGuestFrame();
+    }//GEN-LAST:event_jBtnAddGuestActionPerformed
 
     /**
      * @param args the command line arguments
@@ -102,22 +294,36 @@ public class AppForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AppForm().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AppForm().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton JBtnFindGuest;
+    private javax.swing.JButton jBtnAddGuest;
+    private javax.swing.JButton jBtnAddRes;
+    private javax.swing.JButton jBtnAddRoom;
+    private javax.swing.JButton jBtnDeleteGuest;
+    private javax.swing.JButton jBtnDeleteRes;
+    private javax.swing.JButton jBtnDeleteRoom;
+    private javax.swing.JButton jBtnFindEmptyRoom;
+    private javax.swing.JButton jBtnFindRoom;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemAbout;
+    private javax.swing.JMenuItem jMenuItemExit;
     private javax.swing.JScrollPane jPaneGuest;
     private javax.swing.JScrollPane jPaneReservation;
     private javax.swing.JScrollPane jPaneRoom;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator19;
+    private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTableGuest;
     private javax.swing.JTable jTableReservation;
     private javax.swing.JTable jTableRoom;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
 }

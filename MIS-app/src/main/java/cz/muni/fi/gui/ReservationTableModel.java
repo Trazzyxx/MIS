@@ -1,31 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.gui;
-
+//@TODO: upravit na guest
+import cz.muni.fi.MIS.Guest;
+import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
 import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
-import cz.muni.fi.MIS.Room;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
-import javax.swing.table.AbstractTableModel;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- *
- * @author Vladko
+ * Created by V.Mecko on 3.5.2017.
  */
 public class ReservationTableModel extends AbstractTableModel {
     private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
-    public static final int RSRVTION_COLUMNS = 9;
+    public static final int RSV_COLUMNS = 9;
     
     protected ApplicationContext ctx;
     protected ReservationManager reservationManager;
@@ -34,7 +30,6 @@ public class ReservationTableModel extends AbstractTableModel {
     public ReservationTableModel() {
         ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class); 
         reservationManager = ctx.getBean(texts.getString("reservationManager"), ReservationManager.class);
-        
         RetrieveSwingWorker retrieveSwingWorker = new RetrieveSwingWorker();
         retrieveSwingWorker.execute();
     }
@@ -79,7 +74,7 @@ public class ReservationTableModel extends AbstractTableModel {
         private int columnIndex;
         
         public UpdateSwingWorker(Reservation reservation, int rowIndex, int columnIndex) {
-            this.reservation = reservation;
+            this.reservation=reservation;
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;
         }
@@ -106,9 +101,9 @@ public class ReservationTableModel extends AbstractTableModel {
         
         @Override    
         protected Void doInBackground() throws Exception {
-            Reservation ResForDelete = reservations.get(row);
+            Reservation resForDelete = reservations.get(row);
             reservations.remove(row);
-            reservationManager.deleteReservation(ResForDelete);
+            reservationManager.deleteReservation(resForDelete);
             return null;
         }
         
@@ -125,32 +120,32 @@ public class ReservationTableModel extends AbstractTableModel {
  
     @Override
     public int getColumnCount() {
-        return RSRVTION_COLUMNS;
+        return RSV_COLUMNS;
     }
  
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Reservation reservation = reservations.get(rowIndex);
+        Reservation res= reservations.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return reservation.getReservationID();
+                return res.getReservationID();
             case 1:
-                return reservation.getStartTime();
+                return res.getStartTime();
             case 2:
-                return reservation.getEndTime();
+                return res.getEndTime();
             case 3:
-                return reservation.getRoom().getCapacity();
+                return res.getRoom().getCapacity();
             case 4:
-                return reservation.getRoom().getRoomNumber();
+                return res.getRoom().getRoomNumber();
             case 5:
-                return reservation.getGuest().getPhoneNumber();
+                return res.getGuest().getPhoneNumber();
             case 6:
-                return reservation.getGuest().getAddress();
+                return res.getGuest().getAddress();
             case 7:
-                return reservation.getGuest().getFullName();
+                return res.getGuest().getFullName();
             case 8:
-                return reservation.getPrice();
-           default:
+                return res.getPrice();
+            default:
                 throw new IllegalArgumentException(texts.getString("working with bad column index."));
         }
     }
@@ -209,40 +204,33 @@ public class ReservationTableModel extends AbstractTableModel {
     
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Reservation reservation = reservations.get(rowIndex);
-          switch (columnIndex) {
+        Reservation res= reservations.get(rowIndex);
+        switch (columnIndex) {
             case 0:
-                reservation.setReservationID((Long) aValue);
+                res.setReservationID((Long) aValue);
                 break;
             case 1:
-                reservation.setStartTime((LocalDate) aValue);
+                res.setStartTime((LocalDate) aValue);
                 break;
             case 2:
-                reservation.setEndTime((LocalDate) aValue);
+                res.setEndTime((LocalDate) aValue);
                 break;
             case 3:
-                reservation.getRoom().setCapacity((Integer) aValue);
-                break;
+                res.getRoom().setCapacity((Integer) aValue);
             case 4:
-                 reservation.getRoom().setRoomNumber((String)aValue);
-                 break;
+                res.getRoom().setRoomNumber((String) aValue);
             case 5:
-                reservation.getGuest().setPhoneNumber((String)aValue);
-                break;
+                res.getGuest().setPhoneNumber((String) aValue);
             case 6:
-                 reservation.getGuest().setAddress((String)aValue);
-                 break;
+                res.getGuest().setAddress((String) aValue);
             case 7:
-                 reservation.getGuest().setFullName((String)aValue);
-                 break;
+                res.getGuest().setFullName((String) aValue);
             case 8:
-                 reservation.setPrice((BigDecimal) aValue);
-                 break;
+                res.setPrice((BigDecimal) aValue);
             default:
-                throw new IllegalArgumentException(texts.getString("working with bad column index."));
-          }
-       
-        UpdateSwingWorker updateSwingWorker = new UpdateSwingWorker(reservation, rowIndex, columnIndex);
+                throw new IllegalArgumentException(texts.getString("Working with bad column index."));
+        }
+        UpdateSwingWorker updateSwingWorker = new UpdateSwingWorker(res, rowIndex, columnIndex);
         updateSwingWorker.execute();
     }
 
@@ -265,8 +253,8 @@ public class ReservationTableModel extends AbstractTableModel {
         }
     }
     
-    public void addRow(Reservation reservation) {
-        CreateSwingWorker createSwingWorker = new CreateSwingWorker(reservation);
+    public void addRow(Reservation res) {
+        CreateSwingWorker createSwingWorker = new CreateSwingWorker(res);
         createSwingWorker.execute();
     }
     

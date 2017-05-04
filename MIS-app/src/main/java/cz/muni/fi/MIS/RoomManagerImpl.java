@@ -75,6 +75,7 @@ public class RoomManagerImpl implements RoomManager {
     @Transactional
     @Override
     public List<Room> findAllRooms() {
+        log.info("Listing all rooms.");
         return jdbc.query("SELECT * FROM rooms",roomMapper);
     }
 }

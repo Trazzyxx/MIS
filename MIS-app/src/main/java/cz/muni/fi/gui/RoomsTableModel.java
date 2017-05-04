@@ -26,7 +26,6 @@ public class RoomsTableModel extends AbstractTableModel {
     public RoomsTableModel() {
         ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class); 
         roomManager = ctx.getBean(texts.getString("roomManager"), RoomManager.class);
-        
         RetrieveSwingWorker retrieveSwingWorker = new RetrieveSwingWorker();
         retrieveSwingWorker.execute();
     }
