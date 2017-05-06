@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author V. Mecko
+ *
+ * to make it run you need jcalendar-1.4.
  */
 public class AppForm extends javax.swing.JFrame {
      private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
@@ -38,6 +40,11 @@ public class AppForm extends javax.swing.JFrame {
     private void showRoomFrame() {
         RoomFrame roomFrame = new RoomFrame(roomTable);
         roomFrame.setVisible(true);
+    }
+    
+    private void showEmptyRoomFrame(){
+        EmptyRoomsFrame emptyRoomFrame = new EmptyRoomsFrame(roomTable);
+        emptyRoomFrame.setVisible(true);
     }
     /*
     private void showCheckFrame() {
@@ -75,6 +82,12 @@ public class AppForm extends javax.swing.JFrame {
             roomTable.removeRow(row);
         }
     }
+    
+    private void showReservationFrame(){
+        ReservationFrame resFrame = new ReservationFrame(reservationTable);
+        resFrame.setVisible(true);
+    }
+    
     /*
     private void actionCheckOut() {
         int row = jTableGuests.getSelectedRow();
@@ -242,6 +255,11 @@ public class AppForm extends javax.swing.JFrame {
         jBtnFindEmptyRoom.setFocusable(false);
         jBtnFindEmptyRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnFindEmptyRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnFindEmptyRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnFindEmptyRoomActionPerformed(evt);
+            }
+        });
         jToolBar2.add(jBtnFindEmptyRoom);
 
         JBtnFindGuest.setText(bundle.getString("FindGuestReservationBtn")); // NOI18N
@@ -269,6 +287,11 @@ public class AppForm extends javax.swing.JFrame {
 
         jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         jMenuItemExit.setText(bundle.getString("exit")); // NOI18N
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExitActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemExit);
 
         jMenuBar1.add(jMenu1);
@@ -297,7 +320,9 @@ public class AppForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, texts.getString("about.authors") + "\n" 
+                                                                                                    +texts.getString("about.version") + "\n"
+                                                                                                    + texts.getString("about.edited") + "\n", texts.getString("About"),JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     private void jBtnAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddGuestActionPerformed
@@ -309,7 +334,7 @@ public class AppForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnAddRoomActionPerformed
 
     private void jBtnAddResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddResActionPerformed
-        //there will be showReservationFrame() once implemented.
+        showReservationFrame();
     }//GEN-LAST:event_jBtnAddResActionPerformed
 
     private void jBtnDeleteGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteGuestActionPerformed
@@ -334,6 +359,14 @@ public class AppForm extends javax.swing.JFrame {
             jBtnDeleteGuest.setEnabled(false);
          }
     }//GEN-LAST:event_jTabbedPane2StateChanged
+
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
+
+    private void jBtnFindEmptyRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindEmptyRoomActionPerformed
+       showEmptyRoomFrame();
+    }//GEN-LAST:event_jBtnFindEmptyRoomActionPerformed
 
        
     /**

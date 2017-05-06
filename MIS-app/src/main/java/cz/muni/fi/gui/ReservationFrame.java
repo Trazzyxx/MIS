@@ -5,17 +5,67 @@
  */
 package cz.muni.fi.gui;
 
+import cz.muni.fi.MIS.Guest;
+import cz.muni.fi.MIS.GuestManager;
+import cz.muni.fi.MIS.Main;
+import cz.muni.fi.MIS.Reservation;
+import cz.muni.fi.MIS.ReservationManager;
+import cz.muni.fi.MIS.Room;
+import cz.muni.fi.MIS.RoomManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 /**
  *
  * @author Vladko
  */
 public class ReservationFrame extends javax.swing.JFrame {
-
+    private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
+    public static final int RSV_COLUMNS = 9;
+    
+    protected ApplicationContext ctx;
+    protected ReservationManager reservationManager;
+    
+    protected List<Reservation> reservations = new ArrayList<>();
+    private ReservationTableModel resTable;
+    
+    /**
+     * combo box for room and guest init
+     */
+    protected RoomManager roomManager;
+    protected GuestManager guestManager;
+    protected List<Room> rooms = new ArrayList<>();
+    protected List<Guest> guests = new ArrayList<>();
+    
+    
+    protected List<String> stringRooms = new ArrayList<>();
+    protected List<String> guestRooms = new ArrayList<>();
+    protected String[] convRooms;
+    protected String[] convGuests;
+    
+    
     /**
      * Creates new form ReservationFrame
      */
-    public ReservationFrame() {
+    public ReservationFrame(ReservationTableModel resTable) {
+        //Here we calculate rooms and guests to String representation for checkboxes
+        ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class); 
+        roomManager = ctx.getBean(texts.getString("roomManager"), RoomManager.class);
+        guestManager = ctx.getBean(texts.getString("guestManager"), GuestManager.class);
+        
+        rooms= roomManager.findAllRooms();
+        convRooms = new String[rooms.size()];
+        for(Room room : rooms){
+            stringRooms.add(room.getRoomNumber());
+        }
+        convRooms = stringRooms.toArray(convRooms);
+        guests = guestManager.listAllGuests();
+        
         initComponents();
+        this.resTable=resTable;
     }
 
     /**
@@ -27,26 +77,152 @@ public class ReservationFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLblCreateRes = new javax.swing.JLabel();
+        jLblFrom = new javax.swing.JLabel();
+        jLblTo = new javax.swing.JLabel();
+        jLblPrice = new javax.swing.JLabel();
+        jDateFrom = new com.toedter.calendar.JDateChooser();
+        jDateTo = new com.toedter.calendar.JDateChooser();
+        jTxtPrice = new javax.swing.JTextField();
+        jBtnSave = new javax.swing.JButton();
+        jBtnCancel = new javax.swing.JButton();
+        jLblGuest = new javax.swing.JLabel();
+        jLblRoom = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N
+        jLblCreateRes.setText(bundle.getString("createReservation")); // NOI18N
+
+        jLblFrom.setText(bundle.getString("startTime")); // NOI18N
+
+        jLblTo.setText(bundle.getString("endTime")); // NOI18N
+
+        jLblPrice.setText(bundle.getString("price")); // NOI18N
+
+        jBtnSave.setText(bundle.getString("save")); // NOI18N
+        jBtnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnSaveActionPerformed(evt);
+            }
+        });
+
+        jBtnCancel.setText(bundle.getString("cancel")); // NOI18N
+        jBtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelActionPerformed(evt);
+            }
+        });
+
+        jLblGuest.setText(bundle.getString("guest")); // NOI18N
+
+        jLblRoom.setText(bundle.getString("room")); // NOI18N
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox2.setModel(new RoomComboBoxModel(convRooms));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(97, 97, 97)
+                            .addComponent(jLblCreateRes))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(64, 64, 64)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLblFrom)
+                                        .addComponent(jLblTo)))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addContainerGap()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLblPrice, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLblGuest, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLblRoom, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jDateFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                                    .addComponent(jDateTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTxtPrice))
+                                .addComponent(jComboBox1, 0, 162, Short.MAX_VALUE)
+                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jBtnSave)
+                        .addGap(48, 48, 48)
+                        .addComponent(jBtnCancel)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLblCreateRes)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLblFrom)
+                            .addComponent(jDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLblTo))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLblPrice)
+                    .addComponent(jTxtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLblGuest)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLblRoom)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnSave)
+                    .addComponent(jBtnCancel))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jBtnCancelActionPerformed
+
+    private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
+       //nothing atm
+    }//GEN-LAST:event_jBtnSaveActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnCancel;
+    private javax.swing.JButton jBtnSave;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateFrom;
+    private com.toedter.calendar.JDateChooser jDateTo;
+    private javax.swing.JLabel jLblCreateRes;
+    private javax.swing.JLabel jLblFrom;
+    private javax.swing.JLabel jLblGuest;
+    private javax.swing.JLabel jLblPrice;
+    private javax.swing.JLabel jLblRoom;
+    private javax.swing.JLabel jLblTo;
+    private javax.swing.JTextField jTxtPrice;
     // End of variables declaration//GEN-END:variables
 }

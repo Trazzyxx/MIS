@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
  * @author V. Mecko
  */
 public class RoomFrame extends javax.swing.JFrame {
-    private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
+private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
     
     private RoomsTableModel roomTable;
     

@@ -5,6 +5,8 @@ import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
 import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
+import cz.muni.fi.MIS.Room;
+import cz.muni.fi.MIS.RoomManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -25,11 +27,13 @@ public class ReservationTableModel extends AbstractTableModel {
     
     protected ApplicationContext ctx;
     protected ReservationManager reservationManager;
+    
     protected List<Reservation> reservations = new ArrayList<>();
 
     public ReservationTableModel() {
         ctx = new AnnotationConfigApplicationContext(Main.SpringConfig.class); 
         reservationManager = ctx.getBean(texts.getString("reservationManager"), ReservationManager.class);
+        
         RetrieveSwingWorker retrieveSwingWorker = new RetrieveSwingWorker();
         retrieveSwingWorker.execute();
     }
