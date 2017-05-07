@@ -132,7 +132,7 @@ public class ReservationManagerImpl implements ReservationManager {
 
     @Override
     public List<Reservation> findAllReservations() {
-        log.info("Listing all reservations.");
+       // log.info("Listing all reservations.");
         return jdbc.query("SELECT * FROM reservations",reservationMapper);
     }
 

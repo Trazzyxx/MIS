@@ -19,6 +19,13 @@ public interface RoomManager {
      * @return room object for given ID.
      */
     Room getRoomByID(Long roomID);
+    
+    /**
+     * 
+     * @param number number of Room
+     * @return room object for given number
+     */
+    Room getRoomByNumber(String number);
 
     /**
      * function list all Rooms in saved in system.

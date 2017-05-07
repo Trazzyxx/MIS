@@ -59,7 +59,7 @@ public class GuestManagerImpl implements GuestManager {
     @Transactional
     @Override
     public List<Guest> listAllGuests() {
-        log.info("Listing all guests.");
+       // log.info("Listing all guests.");
         return jdbc.query("SELECT * FROM guests",guestMapper);
     }
 
@@ -75,5 +75,13 @@ public class GuestManagerImpl implements GuestManager {
     public List<Guest> findGuestByName(String fullName) {
         log.info("Looking for Guest " + fullName + ".");
         return jdbc.query("SELECT * FROM guests WHERE fullname=?",guestMapper,fullName);
+    }
+    
+    @Override
+    public Guest getGuestByNameAndPhoneNum(String fullName, String phoneNum){
+        log.info("Looking for Guest based on name and number.");
+        List<Guest> guests = jdbc.query("SELECT * FROM guests WHERE fullname=? AND phonenumber=?",guestMapper,fullName,phoneNum);
+        if(guests.isEmpty()) return null;
+        return guests.get(0);
     }
 }

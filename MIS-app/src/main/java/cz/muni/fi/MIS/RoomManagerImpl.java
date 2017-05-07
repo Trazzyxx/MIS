@@ -66,16 +66,26 @@ public class RoomManagerImpl implements RoomManager {
     public Room getRoomByID(Long roomID) {
         List<Room> rooms = jdbc.query("SELECT * FROM rooms WHERE roomID=?", roomMapper, roomID);
         if(rooms.isEmpty()){
-            log.info("Can't find room.");
+            log.info("Can't find room by ID.");
             return null;
         }
         return rooms.get(0);
     }
-
+    
+    @Override
+    public Room getRoomByNumber(String number){
+        List<Room> rooms = jdbc.query("SELECT * FROM rooms WHERE roomNumber=?",roomMapper,number);
+        if(rooms.isEmpty()){
+            log.info("Can't find room by number.");
+            return null;
+        }
+        return rooms.get(0);
+    }
+    
     @Transactional
     @Override
     public List<Room> findAllRooms() {
-        log.info("Listing all rooms.");
+        //log.info("Listing all rooms.");
         return jdbc.query("SELECT * FROM rooms",roomMapper);
     }
 }

@@ -27,4 +27,13 @@ public interface GuestManager {
     Guest getGuestByID(Long guestID);
 
     List<Guest> findGuestByName(String fullName);
+    
+    /**
+     * @brief this method is used in GUI of app to determine unique guests without working with id.
+     * 
+     * @param fullName of guest
+     * @param phoneNum of guest
+     * @return unique guest
+     */
+    Guest getGuestByNameAndPhoneNum(String fullName, String phoneNum);
 }
