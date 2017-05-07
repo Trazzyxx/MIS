@@ -42,25 +42,12 @@ public class AppForm extends javax.swing.JFrame {
         roomFrame.setVisible(true);
     }
     
-    private void showEmptyRoomFrame(){
-        EmptyRoomsFrame emptyRoomFrame = new EmptyRoomsFrame(roomTable);
-        emptyRoomFrame.setVisible(true);
+    private void showEmptyRoomsOptionFrame(){
+        EmptyRoomsOptionFrame roomFrame = new EmptyRoomsOptionFrame();
+        roomFrame.setVisible(true);
     }
-    /*
-    private void showCheckFrame() {
-        int row = jTableGuest.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("cantCheck"), JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        ReservationFrame resFrame = new ReservationFrame(guestModel.getRow(row));
-        if (checkFrame.getModel().isChecked()) {
-            JOptionPane.showMessageDialog(this, texts.getString("alreadyChecked"), texts.getString("cantCheckIn"), JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        checkFrame.setVisible(true);
-    }
-    */
+    
+  
     private void actionDeleteGuest() {
         int row = jTableGuest.getSelectedRow();
         if (row < 0) {
@@ -88,21 +75,15 @@ public class AppForm extends javax.swing.JFrame {
         resFrame.setVisible(true);
     }
     
-    /*
-    private void actionCheckOut() {
-        int row = jTableGuests.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("cantCheckOut"), JOptionPane.WARNING_MESSAGE);
+    private void actionCheckOut(){
+        int row = jTableReservation.getSelectedRow();
+        if(row < 0){
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectRes"),texts.getString("cantCheckout"),JOptionPane.WARNING_MESSAGE);
             return;
         }
-        CheckTableModel checkModel = new CheckTableModel(guestModel.getRow(row));
-        if (!checkModel.isChecked()) {
-            JOptionPane.showMessageDialog(this, texts.getString("notCheckedInGuest"), texts.getString("cantCheckOut"), JOptionPane.WARNING_MESSAGE);
-            return;
+        if(JOptionPane.showConfirmDialog(this,texts.getString("reallyDeleteRes"),texts.getString("DeleteReservationBtn"),JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            reservationTable.removeRow(row);
         }
-        if (JOptionPane.showConfirmDialog(this, texts.getString("reallyCheckGuest"), texts.getString("checkOutGuest"), JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            checkModel.checkOut();
-        }        
     }
     
     /**
@@ -194,6 +175,11 @@ public class AppForm extends javax.swing.JFrame {
         jBtnDeleteRes.setFocusable(false);
         jBtnDeleteRes.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnDeleteRes.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnDeleteRes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnDeleteResActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jBtnDeleteRes);
         jBtnDeleteRes.getAccessibleContext().setAccessibleName("jBtnDeleteRes");
 
@@ -365,8 +351,12 @@ public class AppForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemExitActionPerformed
 
     private void jBtnFindEmptyRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindEmptyRoomActionPerformed
-       showEmptyRoomFrame();
+       showEmptyRoomsOptionFrame();
     }//GEN-LAST:event_jBtnFindEmptyRoomActionPerformed
+
+    private void jBtnDeleteResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteResActionPerformed
+       actionCheckOut();
+    }//GEN-LAST:event_jBtnDeleteResActionPerformed
 
        
     /**

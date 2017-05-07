@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.gui;
 
+import com.toedter.calendar.JDateChooser;
 import cz.muni.fi.MIS.Guest;
 import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
@@ -12,9 +13,17 @@ import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
 import cz.muni.fi.MIS.Room;
 import cz.muni.fi.MIS.RoomManager;
+import java.awt.Color;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.xml.bind.ValidationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -42,7 +51,7 @@ public class ReservationFrame extends javax.swing.JFrame {
     
     
     protected List<String> stringRooms = new ArrayList<>();
-    protected List<String> guestRooms = new ArrayList<>();
+    protected List<String> stringGuests = new ArrayList<>();
     protected String[] convRooms;
     protected String[] convGuests;
     
@@ -62,7 +71,13 @@ public class ReservationFrame extends javax.swing.JFrame {
             stringRooms.add(room.getRoomNumber());
         }
         convRooms = stringRooms.toArray(convRooms);
+        
         guests = guestManager.listAllGuests();
+        convGuests = new String[guests.size()];
+        for(Guest guest: guests){
+            stringGuests.add(guest.getFullName() + "," + guest.getPhoneNumber());
+        }
+        convGuests = stringGuests.toArray(convGuests);
         
         initComponents();
         this.resTable=resTable;
@@ -88,8 +103,8 @@ public class ReservationFrame extends javax.swing.JFrame {
         jBtnCancel = new javax.swing.JButton();
         jLblGuest = new javax.swing.JLabel();
         jLblRoom = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jCmbBoxGuest = new javax.swing.JComboBox<>();
+        jCmbBoxRoom = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,9 +135,9 @@ public class ReservationFrame extends javax.swing.JFrame {
 
         jLblRoom.setText(bundle.getString("room")); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCmbBoxGuest.setModel(new GuestComboBoxModel(convGuests));
 
-        jComboBox2.setModel(new RoomComboBoxModel(convRooms));
+        jCmbBoxRoom.setModel(new RoomComboBoxModel(convRooms));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,12 +164,11 @@ public class ReservationFrame extends javax.swing.JFrame {
                                         .addComponent(jLblRoom, javax.swing.GroupLayout.Alignment.TRAILING))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jDateFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                                    .addComponent(jDateTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTxtPrice))
-                                .addComponent(jComboBox1, 0, 162, Short.MAX_VALUE)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jDateFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                                .addComponent(jDateTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTxtPrice)
+                                .addComponent(jCmbBoxGuest, 0, 162, Short.MAX_VALUE)
+                                .addComponent(jCmbBoxRoom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(70, 70, 70)
                         .addComponent(jBtnSave)
@@ -183,11 +197,11 @@ public class ReservationFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLblGuest)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCmbBoxGuest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLblRoom)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jCmbBoxRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSave)
@@ -203,7 +217,64 @@ public class ReservationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnCancelActionPerformed
 
     private void jBtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSaveActionPerformed
-       //nothing atm
+       
+       Reservation resForSave = new Reservation();
+       
+       //convert all ',' in number for '.'' eg. 1000,332 => 1000.332
+       BigDecimal resPrice;
+       try{
+       resPrice = new BigDecimal(jTxtPrice.getText().replaceAll(",", "."));
+       }catch(NumberFormatException ex){
+           resPrice = BigDecimal.ZERO;
+           JOptionPane.showMessageDialog(null,texts.getString("correctPrice"),texts.getString("badPrice"),JOptionPane.WARNING_MESSAGE);
+           return;
+       } 
+       resForSave.setPrice(resPrice);
+       
+       
+       Date dateFrom = jDateFrom.getDate();
+       
+       if(dateFrom == null){
+            JOptionPane.showMessageDialog(null,texts.getString("enterDatepls"),texts.getString("requireDate"),JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+       
+       LocalDate localDateFrom = dateFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); 
+       
+       Date dateTo = jDateTo.getDate();
+       
+       if(dateTo == null){
+            JOptionPane.showMessageDialog(null,texts.getString("enterDatepls"),texts.getString("requireDate"),JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+       LocalDate localDateTo = dateTo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+       
+       resForSave.setStartTime(localDateFrom);
+       resForSave.setEndTime(localDateTo);
+       
+       Room roomForRes;
+       roomForRes = roomManager.getRoomByNumber((String)jCmbBoxRoom.getSelectedItem());
+       resForSave.setRoom(roomForRes);
+       
+       Guest guestForRes;
+       String guestComboBoxText = (String)jCmbBoxGuest.getSelectedItem();
+       //first one is room number + , + full guest name , eg. "123456,Name LastName"
+       String[] guestValues = guestComboBoxText.split(","); 
+       guestForRes = guestManager.getGuestByNameAndPhoneNum(guestValues[0], guestValues[1]);
+       resForSave.setGuest(guestForRes);
+       
+        if(resPrice.compareTo(BigDecimal.ZERO) <= 0){
+            JOptionPane.showMessageDialog(null,texts.getString("correctPrice"),texts.getString("badPrice"),JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (localDateFrom.isAfter(localDateTo)){
+            JOptionPane.showMessageDialog(null,texts.getString("dateError"),texts.getString("fromLaterThanTo"),JOptionPane.WARNING_MESSAGE);
+            return;
+        } 
+       resTable.addRow(resForSave);
+     
+       this.dispose();
     }//GEN-LAST:event_jBtnSaveActionPerformed
 
     /**
@@ -213,8 +284,8 @@ public class ReservationFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancel;
     private javax.swing.JButton jBtnSave;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jCmbBoxGuest;
+    private javax.swing.JComboBox<String> jCmbBoxRoom;
     private com.toedter.calendar.JDateChooser jDateFrom;
     private com.toedter.calendar.JDateChooser jDateTo;
     private javax.swing.JLabel jLblCreateRes;
