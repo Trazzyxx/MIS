@@ -214,4 +214,8 @@ public class GuestTableModel extends AbstractTableModel {
         deleteSwingWorker.execute();
     }
     
+     public Guest getRow(int row) {
+        return guests.get(row);
+    }
+    
 }

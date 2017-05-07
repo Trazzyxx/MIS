@@ -86,6 +86,26 @@ public class AppForm extends javax.swing.JFrame {
         }
     }
     
+    private void showFindGuestFrame(){
+        int row = jTableGuest.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectGuest"), texts.getString("notSelectGuest"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        FindGuestFrame findGuestFrame = new FindGuestFrame(new FindGuestTableModel(guestTable.getRow(row)));
+        findGuestFrame.setVisible(true);
+    }
+    
+    private void showFindRoomFrame(){
+        int row = jTableRoom.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, texts.getString("notSelectRoom"), texts.getString("notSelectRoom"), JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        FindRoomFrame findRoomFrame = new FindRoomFrame(new FindRoomTableModel(roomTable.getRow(row)));
+        findRoomFrame.setVisible(true);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -252,12 +272,22 @@ public class AppForm extends javax.swing.JFrame {
         JBtnFindGuest.setFocusable(false);
         JBtnFindGuest.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         JBtnFindGuest.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        JBtnFindGuest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBtnFindGuestActionPerformed(evt);
+            }
+        });
         jToolBar2.add(JBtnFindGuest);
 
         jBtnFindRoom.setText(bundle.getString("FindRoomReservationBtn")); // NOI18N
         jBtnFindRoom.setFocusable(false);
         jBtnFindRoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtnFindRoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtnFindRoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnFindRoomActionPerformed(evt);
+            }
+        });
         jToolBar2.add(jBtnFindRoom);
 
         jMenu1.setText("Hotel");
@@ -357,6 +387,14 @@ public class AppForm extends javax.swing.JFrame {
     private void jBtnDeleteResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteResActionPerformed
        actionCheckOut();
     }//GEN-LAST:event_jBtnDeleteResActionPerformed
+
+    private void JBtnFindGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBtnFindGuestActionPerformed
+        showFindGuestFrame();
+    }//GEN-LAST:event_JBtnFindGuestActionPerformed
+
+    private void jBtnFindRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFindRoomActionPerformed
+       showFindRoomFrame();
+    }//GEN-LAST:event_jBtnFindRoomActionPerformed
 
        
     /**

@@ -1,5 +1,4 @@
 package cz.muni.fi.gui;
-//@TODO: upravit na guest
 import cz.muni.fi.MIS.Guest;
 import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
