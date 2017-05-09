@@ -1,11 +1,8 @@
 package cz.muni.fi.gui;
-import cz.muni.fi.MIS.Guest;
-import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
 import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
 import cz.muni.fi.MIS.Room;
-import cz.muni.fi.MIS.RoomManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -14,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
-import javax.xml.bind.ValidationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -69,51 +65,6 @@ public class FindRoomTableModel extends AbstractTableModel {
         @Override    
         protected void done() {
             fireTableRowsInserted(0, getRowCount() - 1);
-        }
-    }
-    
-    private class UpdateSwingWorker extends SwingWorker<Void,Void> {
-        private Reservation reservation;
-        private int rowIndex;
-        private int columnIndex;
-        
-        public UpdateSwingWorker(Reservation reservation, int rowIndex, int columnIndex) {
-            this.reservation=reservation;
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
-        }
-        
-        @Override    
-        protected Void doInBackground() throws Exception {
-            reservationManager.updateReservation(reservation);
-            reservations.set(rowIndex, reservation);
-            return null;
-        }
-        
-        @Override    
-        protected void done() {
-            fireTableCellUpdated(rowIndex, columnIndex);
-        }
-    }
-    
-    private class DeleteSwingWorker extends SwingWorker<Void,Void> {        
-        private int row;
-        
-        public DeleteSwingWorker(int row) {
-            this.row = row;
-        }
-        
-        @Override    
-        protected Void doInBackground() throws Exception {
-            Reservation resForDelete = reservations.get(row);
-            reservations.remove(row);
-            reservationManager.deleteReservation(resForDelete);
-            return null;
-        }
-        
-        @Override    
-        protected void done() {
-            fireTableRowsDeleted(row, row);
         }
     }
  
@@ -207,42 +158,9 @@ public class FindRoomTableModel extends AbstractTableModel {
     }
     
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Reservation res= reservations.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                res.setReservationID((Long) aValue);
-                break;
-            case 1:
-                res.setStartTime((LocalDate) aValue);
-                break;
-            case 2:
-                res.setEndTime((LocalDate) aValue);
-                break;
-            case 3:
-                res.getRoom().setCapacity((Integer) aValue);
-            case 4:
-                res.getRoom().setRoomNumber((String) aValue);
-            case 5:
-                res.getGuest().setPhoneNumber((String) aValue);
-            case 6:
-                res.getGuest().setAddress((String) aValue);
-            case 7:
-                res.getGuest().setFullName((String) aValue);
-            case 8:
-                res.setPrice((BigDecimal) aValue);
-            default:
-                throw new IllegalArgumentException(texts.getString("Working with bad column index."));
-        }
-        UpdateSwingWorker updateSwingWorker = new UpdateSwingWorker(res, rowIndex, columnIndex);
-        updateSwingWorker.execute();
-    }
-
-    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return false;
             case 1:
             case 2:
             case 3:
@@ -251,7 +169,7 @@ public class FindRoomTableModel extends AbstractTableModel {
             case 6:
             case 7:
             case 8:
-                return true;
+                return false;
             default:
                 throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }
@@ -260,11 +178,5 @@ public class FindRoomTableModel extends AbstractTableModel {
     public void addRow(Reservation res) {
         CreateSwingWorker createSwingWorker = new CreateSwingWorker(res);
         createSwingWorker.execute();
-    }
-    
-    public void removeRow(int row) {
-        DeleteSwingWorker deleteSwingWorker = new DeleteSwingWorker(row);
-        deleteSwingWorker.execute();
-    }
-    
+    } 
 }

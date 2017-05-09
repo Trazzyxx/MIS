@@ -1,11 +1,7 @@
 package cz.muni.fi.gui;
-import cz.muni.fi.MIS.Guest;
-import cz.muni.fi.MIS.GuestManager;
 import cz.muni.fi.MIS.Main;
 import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
-import cz.muni.fi.MIS.Room;
-import cz.muni.fi.MIS.RoomManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -14,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.SwingWorker;
-import javax.xml.bind.ValidationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -221,16 +216,22 @@ public class ReservationTableModel extends AbstractTableModel {
                 break;
             case 3:
                 res.getRoom().setCapacity((Integer) aValue);
+                break;
             case 4:
                 res.getRoom().setRoomNumber((String) aValue);
+                break;
             case 5:
                 res.getGuest().setPhoneNumber((String) aValue);
+                break;
             case 6:
                 res.getGuest().setAddress((String) aValue);
+                break;
             case 7:
                 res.getGuest().setFullName((String) aValue);
+                break;
             case 8:
                 res.setPrice((BigDecimal) aValue);
+                break;
             default:
                 throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }

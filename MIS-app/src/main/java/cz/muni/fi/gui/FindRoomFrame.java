@@ -36,6 +36,9 @@ public class FindRoomFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTableForRoomRes.setModel(table);
+        jTableForRoomRes.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableForRoomRes.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableForRoomRes.getColumnModel().getColumn(0).setWidth(0);
         jScrollPane1.setViewportView(jTableForRoomRes);
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N

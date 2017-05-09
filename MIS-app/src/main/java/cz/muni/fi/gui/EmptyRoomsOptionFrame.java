@@ -16,10 +16,9 @@ import javax.swing.JOptionPane;
  * @author Vladko
  */
 public class EmptyRoomsOptionFrame extends javax.swing.JFrame {
-private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
+private static ResourceBundle texts = ResourceBundle.getBundle("texts");
 protected EmptyRoomsFrame emptyRoomFrame;
-    
-private RoomsTableModel roomTable;
+
     /**
      * Creates new form EmptyRoomsOptionFrame
      */

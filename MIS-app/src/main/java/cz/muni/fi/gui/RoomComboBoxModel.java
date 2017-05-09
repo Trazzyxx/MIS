@@ -5,17 +5,7 @@
  */
 package cz.muni.fi.gui;
 
-import cz.muni.fi.MIS.Main;
-import cz.muni.fi.MIS.ReservationManager;
-import cz.muni.fi.MIS.Room;
-import cz.muni.fi.MIS.RoomManager;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *

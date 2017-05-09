@@ -148,6 +148,8 @@ public class RoomsTableModel extends AbstractTableModel {
         }
     }
     
+    
+    
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {

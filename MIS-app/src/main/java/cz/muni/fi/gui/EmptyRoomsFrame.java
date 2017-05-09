@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
  * @author Vladko
  */
 public class EmptyRoomsFrame extends javax.swing.JFrame {
-     private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
     
     private EmptyRoomsTableModel roomTable;
     protected LocalDate from;
@@ -44,6 +43,9 @@ public class EmptyRoomsFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTableEmptyRooms.setModel(new EmptyRoomsTableModel(from,to));
+        jTableEmptyRooms.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableEmptyRooms.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableEmptyRooms.getColumnModel().getColumn(0).setWidth(0);
         jScrollPane1.setViewportView(jTableEmptyRooms);
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N

@@ -183,6 +183,7 @@ public class GuestTableModel extends AbstractTableModel {
                 break;
             case 3:
                 guest.setFullName((String) aValue);
+                break;
             default:
                 throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }

@@ -7,19 +7,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import javax.xml.bind.ValidationException;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +46,6 @@ public class ReservationManagerImpl implements ReservationManager {
     }
 
     //insert part
-
     @Override
     public void createReservation(Reservation reservation) throws ValidationException {
         /**/
@@ -72,25 +65,9 @@ public class ReservationManagerImpl implements ReservationManager {
         Number id = insertReservation.executeAndReturnKey(parameters);
         reservation.setReservationID(id.longValue());
         log.info("Reservation {} created.",reservation);
-       /* */
-
-        /* cez keyholder */ /*
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbc.update(con -> {
-            PreparedStatement ps = con.prepareStatement("insert into reservations (STARTTIME, ENDTIME, ROOMID_FK, GUESTID_FK, PRICE) VALUES (?,?,?,?,?)", new String[]{"reservationid"});
-            ps.setObject(1, reservation.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE), Types.DATE);
-            ps.setObject(2, reservation.getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE), Types.DATE);
-            ps.setLong(3, reservation.getRoom().getRoomID());
-            ps.setLong(4, reservation.getGuest().getGuestID());
-            ps.setBigDecimal(5, reservation.getPrice());
-            return ps;
-        }, keyHolder);
-        reservation.setReservationID(keyHolder.getKey().longValue());
-        */
     }
 
     //update part
-
     @Override
     public void updateReservation(Reservation reservation) {
         jdbc.update("UPDATE reservations SET starttime=?,endtime=?,roomid_fk=?,guestid_fk=?,price=? WHERE reservationid=?",
@@ -111,11 +88,6 @@ public class ReservationManagerImpl implements ReservationManager {
     }
 
     //query part
-
-    private RowMapper<Guest> guestMapper = (rs,rowNum) ->
-            new Guest(rs.getLong("guestID"),rs.getString("phonenumber"),rs.getString("address"),rs.getString("fullname"));
-
-
     private RowMapper<Room> roomMapper = (rs,rowNum) ->
             new Room(rs.getLong("roomID"),rs.getInt("capacity"),rs.getString("roomNumber"));
 

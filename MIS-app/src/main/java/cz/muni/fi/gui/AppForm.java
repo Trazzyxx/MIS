@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *
  * @author V. Mecko
  *
- * to make it run you need jcalendar-1.4.
+ * to make it run you need jcalendar-1.4 plugin.
  */
 public class AppForm extends javax.swing.JFrame {
      private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
@@ -47,7 +47,6 @@ public class AppForm extends javax.swing.JFrame {
         roomFrame.setVisible(true);
     }
     
-  
     private void actionDeleteGuest() {
         int row = jTableGuest.getSelectedRow();
         if (row < 0) {
@@ -150,12 +149,18 @@ public class AppForm extends javax.swing.JFrame {
         });
 
         jTableReservation.setModel(new ReservationTableModel());
+        jTableReservation.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableReservation.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableReservation.getColumnModel().getColumn(0).setWidth(0);
         jPaneReservation.setViewportView(jTableReservation);
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N
         jTabbedPane2.addTab(bundle.getString("Reservations"), jPaneReservation); // NOI18N
 
         jTableGuest.setModel(new GuestTableModel());
+        jTableGuest.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableGuest.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableGuest.getColumnModel().getColumn(0).setWidth(0);
         jTableGuest.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTableGuestFocusGained(evt);
@@ -166,6 +171,9 @@ public class AppForm extends javax.swing.JFrame {
         jTabbedPane2.addTab(bundle.getString("Guests"), jPaneGuest); // NOI18N
 
         jTableRoom.setModel(new RoomsTableModel());
+        jTableRoom.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableRoom.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableRoom.getColumnModel().getColumn(0).setWidth(0);
         jTableRoom.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTableRoomFocusGained(evt);
@@ -337,8 +345,9 @@ public class AppForm extends javax.swing.JFrame {
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
         JOptionPane.showMessageDialog(this, texts.getString("about.authors") + "\n" 
-                                                                                                    +texts.getString("about.version") + "\n"
-                                                                                                    + texts.getString("about.edited") + "\n", texts.getString("About"),JOptionPane.WARNING_MESSAGE);
+                                                               + texts.getString("about.version") + "\n"
+                                                               + texts.getString("about.edited") + "\n",
+                                  texts.getString("About"),JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     private void jBtnAddGuestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddGuestActionPerformed

@@ -2,8 +2,6 @@ package cz.muni.fi.MIS;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,8 +10,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

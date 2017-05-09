@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

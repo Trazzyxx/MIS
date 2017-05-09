@@ -7,7 +7,7 @@ package cz.muni.fi.gui;
 
 /**
  *
- * @author Vladko
+ * @author V. Mecko
  */
 public class FindGuestFrame extends javax.swing.JFrame {
 
@@ -36,6 +36,9 @@ public class FindGuestFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTableForGuestRes.setModel(table);
+        jTableForGuestRes.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableForGuestRes.getColumnModel().getColumn(0).setMaxWidth(0);
+        jTableForGuestRes.getColumnModel().getColumn(0).setWidth(0);
         jScrollPane1.setViewportView(jTableForGuestRes);
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("texts"); // NOI18N

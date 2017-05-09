@@ -13,7 +13,6 @@ import cz.muni.fi.MIS.Reservation;
 import cz.muni.fi.MIS.ReservationManager;
 import cz.muni.fi.MIS.Room;
 import cz.muni.fi.MIS.RoomManager;
-import java.awt.Color;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -21,9 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
-import javax.xml.bind.ValidationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -258,7 +255,7 @@ public class ReservationFrame extends javax.swing.JFrame {
        
        Guest guestForRes;
        String guestComboBoxText = (String)jCmbBoxGuest.getSelectedItem();
-       //first one is room number + , + full guest name , eg. "123456,Name LastName"
+       //first one is full guest name + , + room number, eg. "Name LastName,123456"
        String[] guestValues = guestComboBoxText.split(","); 
        guestForRes = guestManager.getGuestByNameAndPhoneNum(guestValues[0], guestValues[1]);
        resForSave.setGuest(guestForRes);

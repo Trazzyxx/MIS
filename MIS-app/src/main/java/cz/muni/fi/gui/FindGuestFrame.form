@@ -51,6 +51,9 @@
               <Connection code="table" type="code"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTableForGuestRes.getColumnModel().getColumn(0).setMinWidth(0);&#xd;&#xa;jTableForGuestRes.getColumnModel().getColumn(0).setMaxWidth(0);&#xd;&#xa;jTableForGuestRes.getColumnModel().getColumn(0).setWidth(0);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

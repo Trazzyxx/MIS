@@ -73,51 +73,6 @@ public class EmptyRoomsTableModel extends AbstractTableModel {
             fireTableRowsInserted(0, getRowCount() - 1);
         }
     }
-    
-    private class UpdateSwingWorker extends SwingWorker<Void,Void> {
-        private Room room;
-        private int rowIndex;
-        private int columnIndex;
-        
-        public UpdateSwingWorker(Room room, int rowIndex, int columnIndex) {
-            this.room = room;
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
-        }
-        
-        @Override    
-        protected Void doInBackground() throws Exception {
-            roomManager.updateRoom(room);
-            rooms.set(rowIndex, room);
-            return null;
-        }
-        
-        @Override    
-        protected void done() {
-            fireTableCellUpdated(rowIndex, columnIndex);
-        }
-    }
-    
-    private class DeleteSwingWorker extends SwingWorker<Void,Void> {        
-        private int row;
-        
-        public DeleteSwingWorker(int row) {
-            this.row = row;
-        }
-        
-        @Override    
-        protected Void doInBackground() throws Exception {
-            Room roomForDelete = rooms.get(row);
-            rooms.remove(row);
-            roomManager.deleteRoom(roomForDelete);
-            return null;
-        }
-        
-        @Override    
-        protected void done() {
-            fireTableRowsDeleted(row, row);
-        }
-    }
  
     @Override
     public int getRowCount() {
@@ -172,34 +127,14 @@ public class EmptyRoomsTableModel extends AbstractTableModel {
         }
     }
     
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Room room = rooms.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                room.setRoomID((Long) aValue);
-                break;
-            case 1:
-                room.setCapacity((Integer) aValue);
-                break;
-            case 2:
-                room.setRoomNumber((String) aValue);
-                break;
-            default:
-                throw new IllegalArgumentException(texts.getString("Working with bad column index."));
-        }
-        UpdateSwingWorker updateSwingWorker = new UpdateSwingWorker(room, rowIndex, columnIndex);
-        updateSwingWorker.execute();
-    }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return false;
             case 1:
             case 2:
-                return true;
+                return false;
             default:
                 throw new IllegalArgumentException(texts.getString("Working with bad column index."));
         }
@@ -208,11 +143,5 @@ public class EmptyRoomsTableModel extends AbstractTableModel {
     public void addRow(Room room) {
         CreateSwingWorker createSwingWorker = new CreateSwingWorker(room);
         createSwingWorker.execute();
-    }
-    
-    public void removeRow(int row) {
-        DeleteSwingWorker deleteSwingWorker = new DeleteSwingWorker(row);
-        deleteSwingWorker.execute();
-    }
-    
+    }   
 }

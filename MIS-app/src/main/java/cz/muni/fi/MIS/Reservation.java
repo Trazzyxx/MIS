@@ -1,7 +1,5 @@
 package cz.muni.fi.MIS;
 
-import org.springframework.cglib.core.Local;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
