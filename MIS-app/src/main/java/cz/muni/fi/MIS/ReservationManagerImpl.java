@@ -49,9 +49,10 @@ public class ReservationManagerImpl implements ReservationManager {
     @Override
     public void createReservation(Reservation reservation) throws ValidationException {
         /**/
-        if (reservation.getStartTime().isAfter(reservation.getEndTime()))
+        if (reservation.getStartTime().isAfter(reservation.getEndTime())){
+            log.info("Validation Exception throwed in createReservation.");
             throw new ValidationException("start time later than end time.");
-
+        }
         SimpleJdbcInsert insertReservation = new SimpleJdbcInsert(jdbc)
                 .withTableName("reservations").usingGeneratedKeyColumns("reservationID");
 
