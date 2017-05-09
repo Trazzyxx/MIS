@@ -137,7 +137,7 @@ public class GuestFrame extends javax.swing.JFrame {
             return;
         }
         if (address.isEmpty()) {
-            JOptionPane.showMessageDialog(this, texts.getString("enterAddresspls"), texts.getString("requireAddress"), JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, texts.getString("enterAdresspls"), texts.getString("requireAddress"), JOptionPane.WARNING_MESSAGE);
             return;
         }
         if(phoneNum.isEmpty()){

@@ -142,8 +142,6 @@ private static final ResourceBundle texts = ResourceBundle.getBundle("texts");
        Integer rmCap = Integer.parseInt((String)jCmbBoxCapacity.getSelectedItem());
        String rmNumb= (String)jComboBox1.getSelectedItem();
        
-       String alreadyAdd;
-       
        Room isAdded = roomManager.getRoomByNumber(rmNumb);
        
        if(isAdded != null){

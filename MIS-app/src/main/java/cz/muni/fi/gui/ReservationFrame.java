@@ -251,6 +251,10 @@ public class ReservationFrame extends javax.swing.JFrame {
        
        Room roomForRes;
        roomForRes = roomManager.getRoomByNumber((String)jCmbBoxRoom.getSelectedItem());
+       if(roomForRes == null){
+           JOptionPane.showMessageDialog(null,texts.getString("chooseRoompls"),texts.getString("chooseRoom"),JOptionPane.WARNING_MESSAGE);
+           return;
+       }
        resForSave.setRoom(roomForRes);
        
        Guest guestForRes;
@@ -258,6 +262,10 @@ public class ReservationFrame extends javax.swing.JFrame {
        //first one is full guest name + , + room number, eg. "Name LastName,123456"
        String[] guestValues = guestComboBoxText.split(","); 
        guestForRes = guestManager.getGuestByNameAndPhoneNum(guestValues[0], guestValues[1]);
+       if(guestForRes == null){
+           JOptionPane.showMessageDialog(this, texts.getString("chooseGuestpls"),texts.getString("chooseGuest"),JOptionPane.WARNING_MESSAGE);
+           return;
+       }
        resForSave.setGuest(guestForRes);
        
         if(resPrice.compareTo(BigDecimal.ZERO) <= 0){
